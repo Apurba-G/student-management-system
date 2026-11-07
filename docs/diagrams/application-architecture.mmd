@@ -1,0 +1,6 @@
+graph TD
+    Client[Browser / SPA] --> Controller[StudentController]
+    Controller --> Service[StudentService / StudentServiceImpl]
+    Service --> Mapper[StudentMapper]
+    Service --> Repository[StudentRepository]
+    Repository --> Database[(PostgreSQL / H2)]

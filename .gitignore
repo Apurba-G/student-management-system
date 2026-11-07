@@ -1,0 +1,28 @@
+# Secrets & Environment Configuration
+.env
+.env.*
+!.env.example
+*.local
+*.local.properties
+*secret*.properties
+
+# Database dumps and local database files
+*.dump
+*.sql.gz
+*.mv.db
+*.trace.db
+sms_dev_db*
+
+# IDE and OS files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+**/target/
+**/dist/
+**/node_modules/
+**/.angular/

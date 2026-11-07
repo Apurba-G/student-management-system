@@ -1,0 +1,4 @@
+graph TD
+    User([Administrator / User]) -->|HTTPS| Frontend[Angular 18 Frontend]
+    Frontend -->|REST / JSON| Backend[Spring Boot 3 API]
+    Backend -->|JDBC| DB[(PostgreSQL Database)]
