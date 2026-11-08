@@ -1,0 +1,18 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
+import { NotificationService } from './core/services/notification.service';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+export class App {
+  title = 'Student Management System';
+  authService = inject(AuthService);
+  notificationService = inject(NotificationService);
+}

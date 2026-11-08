@@ -1,0 +1,104 @@
+```html
+<div class="students-container">
+  <div class="page-header">
+    <div>
+      <h2>Students Directory</h2>
+      <p>Manage and view all registered students</p>
+    </div>
+    <a routerLink="/students/new" class="btn-create">➕ Add Student</a>
+  </div>
+
+  <div class="controls-bar">
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="onSearch()"
+        placeholder="Search by name, email, department..."
+        class="search-input"
+      />
+      <button (click)="onSearch()" class="btn-search">Search</button>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <table class="students-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Enrollment</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let s of students">
+        <td>{{ s.id }}</td>
+        <td><code>{{ s.enrollmentNumber }}</code></td>
+        <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.department }}</td>
+        <td>
+            <span class="badge" [ngClass]="s.status.toLowerCase()">
+              {{ s.status }}
+            </span>
+        </td>
+        <td class="action-cell">
+          <a
+            [routerLink]="['/students', s.id]"
+            class="btn-view"
+            title="View Details"
+          >👁️</a>
+          <a
+            [routerLink]="['/students', s.id, 'edit']"
+            class="btn-edit"
+            title="Edit"
+          >✏️</a>
+          <button
+            (click)="promptDelete(s)"
+            class="btn-delete"
+            title="Delete"
+          >🗑️</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="students.length === 0 && !loading">
+        <td colspan="7" class="empty-state">
+          No students found matching your criteria.
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-bar" *ngIf="totalPages > 1">
+      <button
+        [disabled]="currentPage === 0"
+        (click)="changePage(currentPage - 1)"
+      >
+        Previous
+      </button>
+
+      <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+
+      <button
+        [disabled]="currentPage >= totalPages - 1"
+        (click)="changePage(currentPage + 1)"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <app-student-delete-dialog
+    *ngIf="studentToDelete"
+    [studentName]="studentToDelete.firstName + ' ' + studentToDelete.lastName"
+    (confirmed)="executeDelete()"
+    (cancelled)="studentToDelete = null"
+  >
+  </app-student-delete-dialog>
+</div>
+```

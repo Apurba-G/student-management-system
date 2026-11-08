@@ -1,0 +1,31 @@
+<div class="app-container">
+  <header class="app-navbar">
+    <div class="navbar-brand">
+      <span class="logo">🎓</span>
+      <span class="brand-text">EduTrack SMS</span>
+    </div>
+    <nav class="navbar-menu">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+      <a routerLink="/students" routerLinkActive="active">Students</a>
+      <a routerLink="/students/new" routerLinkActive="active">Add Student</a>
+    </nav>
+    <div class="navbar-user">
+      <ng-container *ngIf="authService.currentUser() as user; else guest">
+        <span class="user-name">👤 {{ user.username }}</span>
+        <button class="btn-logout" (click)="authService.logout()">Logout</button>
+      </ng-container>
+      <ng-template #guest>
+        <a routerLink="/auth/login" class="btn-login">Sign In</a>
+      </ng-template>
+    </div>
+  </header>
+
+  <div *ngIf="notificationService.currentNotification() as notif" class="notification-toast" [ngClass]="notif.type">
+    <span>{{ notif.message }}</span>
+    <button (click)="notificationService.clear()" class="toast-close">✕</button>
+  </div>
+
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>

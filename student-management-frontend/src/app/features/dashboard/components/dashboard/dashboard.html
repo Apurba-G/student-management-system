@@ -1,0 +1,62 @@
+```html
+<div class="dashboard-layout">
+  <app-dashboard-sidebar></app-dashboard-sidebar>
+
+  <main class="dashboard-content">
+    <div class="dashboard-header">
+      <h1>Overview Dashboard</h1>
+      <a routerLink="/students/new" class="btn-primary">➕ Add New Student</a>
+    </div>
+
+    <app-dashboard-stats
+      [totalStudents]="totalStudents"
+      [activeStudents]="activeStudents"
+      [inactiveStudents]="inactiveStudents"
+    >
+    </app-dashboard-stats>
+
+    <div class="recent-section">
+      <div class="section-header">
+        <h2>Recently Added Students</h2>
+        <a routerLink="/students" class="view-all">View All Students →</a>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr *ngFor="let s of recentStudents">
+            <td>{{ s.id }}</td>
+            <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
+            <td>{{ s.email }}</td>
+            <td>{{ s.department }}</td>
+            <td>
+                <span class="badge" [ngClass]="s.status.toLowerCase()">
+                  {{ s.status }}
+                </span>
+            </td>
+            <td>
+              <a [routerLink]="['/students', s.id]" class="btn-action">View</a>
+            </td>
+          </tr>
+
+          <tr *ngIf="recentStudents.length === 0">
+            <td colspan="6" class="empty-cell">No students registered yet.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+```

@@ -1,0 +1,11 @@
+<div class="modal-backdrop">
+  <div class="modal-card">
+    <div class="modal-icon">⚠️</div>
+    <h3>Delete Student</h3>
+    <p>Are you sure you want to delete <strong>{{ studentName }}</strong>? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <button class="btn-delete" (click)="onConfirm()">Yes, Delete</button>
+    </div>
+  </div>
+</div>

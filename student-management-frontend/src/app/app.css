@@ -1,0 +1,95 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+.app-navbar {
+  height: 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+.logo {
+  font-size: 1.5rem;
+}
+.navbar-menu {
+  display: flex;
+  gap: 1.5rem;
+}
+.navbar-menu a {
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.navbar-menu a:hover, .navbar-menu a.active {
+  color: #2563eb;
+}
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.user-name {
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 500;
+}
+.btn-logout {
+  padding: 0.4rem 0.85rem;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.btn-login {
+  padding: 0.4rem 1rem;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.notification-toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  z-index: 9999;
+}
+.notification-toast.success { background: #10b981; color: white; }
+.notification-toast.error { background: #ef4444; color: white; }
+.notification-toast.info { background: #3b82f6; color: white; }
+.toast-close {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.app-main {
+  flex: 1;
+}

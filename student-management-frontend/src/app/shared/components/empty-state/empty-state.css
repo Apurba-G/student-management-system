@@ -1,0 +1,27 @@
+.empty-state-card {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+}
+.icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+.empty-state-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1e293b;
+}
+.empty-state-card p {
+  color: #64748b;
+  margin-bottom: 1.25rem;
+}
+.btn-action {
+  padding: 0.6rem 1.25rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
