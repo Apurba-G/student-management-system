@@ -26,7 +26,9 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username) {
+
+    // Generate JWT with username and token version
+    public String generateToken(String username, long tokenVersion) {
 
         Date issuedAt = new Date();
         Date expiration = new Date(
@@ -35,32 +37,51 @@ public class JwtService {
 
         return Jwts.builder()
                 .subject(username)
+                .claim("tokenVersion", tokenVersion)
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(getSigningKey())
                 .compact();
     }
 
+    // Extract username from JWT
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+
+    // Extract expiration date from JWT
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public boolean isTokenValid(String token, String username) {
+    // Extract token version from JW
+    public long extractTokenVersion(String token) {
+        Object version = extractClaim(token, claims -> claims.get("tokenVersion"));
+
+        if (version instanceof Number number){
+            return number.longValue();
+        }
+        return -1L;
+    }
+
+
+    // Validate JWT username, expiration and token version
+    public boolean isTokenValid(String token, String username, long expectedTokenVersion) {
 
         String extractedUsername = extractUsername(token);
 
         return extractedUsername.equals(username)
-                && !isTokenExpired(token);
+                && !isTokenExpired(token)
+                && extractTokenVersion(token) == expectedTokenVersion;
     }
-
+    // Check whether JWT is expired
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
+
+    // Extract all JWT claims after verifying its signature
     private Claims extractAllClaims(String token) {
 
         return Jwts.parser()
@@ -70,6 +91,8 @@ public class JwtService {
                 .getPayload();
     }
 
+
+    // Generic method for extracting individual claims
     public <T> T extractClaim(
             String token,
             Function<Claims, T> claimsResolver
