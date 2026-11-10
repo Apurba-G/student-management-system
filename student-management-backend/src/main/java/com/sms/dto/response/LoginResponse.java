@@ -3,14 +3,14 @@ package com.sms.dto.response;
 public class LoginResponse {
     private String token;
     private String tokenType;
-    private String adminId;
+    private long adminId;
     private String username;
     private String role;
 
     public LoginResponse(){
 
     }
-    public LoginResponse(String token, String tokenType, String adminId, String username, String role){
+    public LoginResponse(String token, String tokenType, Long adminId, String username, String role){
         this.token = token;
         this.tokenType = tokenType;
         this.adminId = adminId;
@@ -23,7 +23,7 @@ public class LoginResponse {
     public String getTokenType(){
         return tokenType;
     }
-    public String getAdminId(){
+    public Long getAdminId(){
         return adminId;
     }
     public String getUsername(){
@@ -40,10 +40,10 @@ public class LoginResponse {
     public void setTokenType(String tokenType){
         this.tokenType=tokenType;
     }
-    public void setAdminId(String adminId){
+    public void setAdminId(Long adminId){
         this.adminId = adminId;
     }
-    public void getUsername(String username){
+    public void setUsername(String username){
         this.username = username;
     }
     public void setRole(String role){
