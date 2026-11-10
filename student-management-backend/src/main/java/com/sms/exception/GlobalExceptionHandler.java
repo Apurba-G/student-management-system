@@ -59,6 +59,25 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+
+    // Duplicate student enrollment number
+    @ExceptionHandler(DuplicateEnrollmentNumberException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateEnrollmentNumber(
+            DuplicateEnrollmentNumberException ex
+    ) {
+        ErrorResponse error = ErrorResponse.builder()
+                .status(HttpStatus.CONFLICT.value())
+                .error("CONFLICT")
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+
+
     // Invalid login credentials
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthenticationException(

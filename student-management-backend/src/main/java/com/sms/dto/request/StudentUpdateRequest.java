@@ -6,6 +6,7 @@ import com.sms.validation.ValidationMessages;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Past;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +38,7 @@ public class StudentUpdateRequest {
 
     @Size(max = 20, message = "Phone number must not exceed 20 characters")
     private String phoneNumber;
-
+    @Past(message = "Date of birth must be in the past")
     private LocalDate dateOfBirth;
 
     @NotBlank(message = ValidationMessages.DEPARTMENT_REQUIRED)

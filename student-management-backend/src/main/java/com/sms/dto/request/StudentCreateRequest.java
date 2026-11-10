@@ -4,7 +4,12 @@ import com.sms.validation.ValidationMessages;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import jakarta.validation.constraints.Past;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -31,6 +36,7 @@ public class StudentCreateRequest {
     @Size(max = 20, message = "Phone number must not exceed 20 characters")
     private String phoneNumber;
 
+    @Past(message = "Date of birth must be in the past")
     private LocalDate dateOfBirth;
 
     @NotBlank(message = ValidationMessages.DEPARTMENT_REQUIRED)
@@ -41,6 +47,6 @@ public class StudentCreateRequest {
     @Size(max = 50, message = "Enrollment number must not exceed 50 characters")
     private String enrollmentNumber;
 
-    @NotBlank(message = ValidationMessages.STATUS_REQUIRED)
+    //@NotBlank(message = ValidationMessages.STATUS_REQUIRED)
     private String status;
 }
