@@ -83,42 +83,6 @@ This instantly resets the admin password back to `admin123`.
 
 ---
 
-## 🌿 Git Tracking & Recommended Commit
-
-When committing your work to Git, make sure private credentials are never staged.
-
-### 1. Check Ignored Files
-Verify that `.env`, `.idea/`, and `target/` are ignored:
-```bash
-git status --ignored
-```
-
-### 2. Stage Tracked Project Files
-```bash
-git add compose.yaml .env.example .dockerignore .gitignore README.md
-git add reset-admin-password.ps1 reset-admin-password.sh
-git add student-management-backend/
-git add student-management-frontend/
-git add database/ docs/
-```
-
-### 3. Recommended Commit Message
-```bash
-git commit -m "feat: complete dockerization, instant stats query, forgot-password recovery, and UI polish
-
-- Dockerize full stack (Spring Boot 3.3.4, Angular 21, PostgreSQL 16, pgAdmin 4)
-- Consolidate dashboard student stats into single JPQL aggregate query for sub-second response
-- Fix dashboard recent students table rendering and View Student details navigation
-- Implement emergency admin password recovery via UI endpoint and server CLI script
-- Integrate JWT authentication with token_version invalidation on password change
-- Add length-aware student directory search with debouncing
-- Update documentation and environment configuration templates"
-```
-
-> [!TIP]
-> You can customize all default credentials, database names, and JWT secrets in the root `.env` file. Secrets in `.env` are automatically ignored from git via `.gitignore`.
-
----
 
 ## 📁 Repository Structure
 
