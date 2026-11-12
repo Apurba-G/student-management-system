@@ -112,15 +112,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional(readOnly = true)
     public com.sms.dto.response.DashboardStatsResponse getDashboardStats() {
-        long total = studentRepository.count();
-        long active = studentRepository.countByStatus("ACTIVE");
-        long inactive = studentRepository.countByStatus("INACTIVE");
-        long suspended = studentRepository.countByStatus("SUSPENDED");
+        com.sms.dto.response.StudentStatsProjection stats = studentRepository.getAggregatedStudentStats();
+        if (stats == null) {
+            return com.sms.dto.response.DashboardStatsResponse.builder().build();
+        }
         return com.sms.dto.response.DashboardStatsResponse.builder()
-                .totalStudents(total)
-                .activeStudents(active)
-                .inactiveStudents(inactive)
-                .suspendedStudents(suspended)
+                .totalStudents(stats.getTotal())
+                .activeStudents(stats.getActive())
+                .inactiveStudents(stats.getInactive())
+                .suspendedStudents(stats.getSuspended())
                 .build();
     }
 

@@ -51,6 +51,70 @@ docker compose up -d --build
 | **pgAdmin 4** | `admin@sms.com` | `admin` | PostgreSQL web database client |
 | **PostgreSQL Database** | `postgres` | `postgres` | Host `localhost:5433`, Database: `sms_db` |
 
+---
+
+## 🆘 Forgot Password & Emergency Admin Recovery
+
+If an administrator forgets their password before logging into the system, two recovery paths are available:
+
+### Method 1: Web UI Emergency Recovery (Self-Service)
+1. On the login page ([http://localhost:4200/auth/login](http://localhost:4200/auth/login)), click **"Forgot password / Emergency recovery?"** (or navigate to `/auth/forgot-password`).
+2. Provide:
+   - **Admin Username**: `admin`
+   - **Emergency Recovery Key**: Value of `ADMIN_RECOVERY_KEY` from your `.env` (default: `sms_admin_recovery_key_2026`).
+   - **New Password**: Enter your new password (minimum 8 characters).
+3. Click **Reset Admin Password**. Upon successful validation, the system immediately hashes the new password, revokes all previous JWTs, and redirects to login.
+
+### Method 2: Direct Server CLI Reset (1-Click)
+Run the emergency script from the project root:
+- **Windows PowerShell**:
+  ```powershell
+  .\reset-admin-password.ps1
+  ```
+- **Linux / macOS / WSL**:
+  ```bash
+  chmod +x reset-admin-password.sh && ./reset-admin-password.sh
+  ```
+- **Direct Docker Command**:
+  ```bash
+  docker exec -i sms-postgres psql -U postgres -d sms_db -c "UPDATE admins SET password_hash = '\$2a\$10\$HRM94vqk0lyrcSxFhqgHue07tJnkkpwrN9hK9A.UKbawwyKOxCxYu', token_version = token_version + 1 WHERE username = 'admin';"
+  ```
+This instantly resets the admin password back to `admin123`.
+
+---
+
+## 🌿 Git Tracking & Recommended Commit
+
+When committing your work to Git, make sure private credentials are never staged.
+
+### 1. Check Ignored Files
+Verify that `.env`, `.idea/`, and `target/` are ignored:
+```bash
+git status --ignored
+```
+
+### 2. Stage Tracked Project Files
+```bash
+git add compose.yaml .env.example .dockerignore .gitignore README.md
+git add reset-admin-password.ps1 reset-admin-password.sh
+git add student-management-backend/
+git add student-management-frontend/
+git add database/ docs/
+```
+
+### 3. Recommended Commit Message
+```bash
+git commit -m "feat: complete dockerization, instant stats query, forgot-password recovery, and UI polish
+
+- Dockerize full stack (Spring Boot 3.3.4, Angular 21, PostgreSQL 16, pgAdmin 4)
+- Consolidate dashboard student stats into single JPQL aggregate query for sub-second response
+- Fix dashboard recent students table rendering and View Student details navigation
+- Implement emergency admin password recovery via UI endpoint and server CLI script
+- Integrate JWT authentication with token_version invalidation on password change
+- Add length-aware student directory search with debouncing
+- Update documentation and environment configuration templates"
+```
+
 > [!TIP]
 > You can customize all default credentials, database names, and JWT secrets in the root `.env` file. Secrets in `.env` are automatically ignored from git via `.gitignore`.
 

@@ -35,6 +35,10 @@
       <button type="submit" class="btn-primary" [disabled]="loading">
         {{ loading ? 'Signing in...' : 'Sign In' }}
       </button>
+
+      <div class="login-footer-links">
+        <a routerLink="/auth/forgot-password" class="link-forgot">Forgot password / Emergency recovery?</a>
+      </div>
     </form>
   </div>
 </div>

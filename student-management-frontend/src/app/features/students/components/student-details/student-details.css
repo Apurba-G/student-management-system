@@ -87,3 +87,12 @@
 .badge.active { background: #dcfce7; color: #15803d; }
 .badge.inactive { background: #f1f5f9; color: #475569; }
 .badge.suspended { background: #fee2e2; color: #b91c1c; }
+.loading-state, .empty-state {
+  background: white;
+  padding: 3rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 1rem;
+}

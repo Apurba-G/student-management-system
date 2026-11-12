@@ -1,0 +1,6 @@
+.git/
+.idea/
+.vscode/
+docs/
+database/postgres_data/
+*.log

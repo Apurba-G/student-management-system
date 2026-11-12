@@ -68,3 +68,18 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+.login-footer-links {
+  text-align: center;
+  margin-top: 1.25rem;
+}
+.link-forgot {
+  color: #64748b;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.link-forgot:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}

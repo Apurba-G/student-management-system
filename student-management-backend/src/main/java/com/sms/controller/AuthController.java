@@ -62,5 +62,13 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    // Emergency password reset using recovery key before login
+    @PostMapping("/forgot-password")
+    public ResponseEntity<com.sms.dto.response.ApiResponse<Void>> forgotPassword(
+            @Valid @RequestBody com.sms.dto.request.ResetPasswordRequest request
+    ) {
+        authService.resetPasswordWithRecoveryKey(request);
+        return ResponseEntity.ok(com.sms.dto.response.ApiResponse.ok("Password has been reset successfully. Please login with your new password.", null));
+    }
 
 }

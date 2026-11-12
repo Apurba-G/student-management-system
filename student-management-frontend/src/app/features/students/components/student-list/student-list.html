@@ -44,35 +44,37 @@
         </td>
       </tr>
 
-      <tr *ngFor="let s of students">
-        <td>{{ s.id }}</td>
-        <td><code>{{ s.enrollmentNumber }}</code></td>
-        <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
-        <td>{{ s.email }}</td>
-        <td>{{ s.department }}</td>
-        <td>
-            <span class="badge" [ngClass]="(s.status || '').toLowerCase()">
-              {{ s.status || 'ACTIVE' }}
-            </span>
-        </td>
-        <td class="action-cell">
-          <a
-            [routerLink]="['/students', s.id]"
-            class="btn-view"
-            title="View Details"
-          >👁️</a>
-          <a
-            [routerLink]="['/students', s.id, 'edit']"
-            class="btn-edit"
-            title="Edit"
-          >✏️</a>
-          <button
-            (click)="promptDelete(s)"
-            class="btn-delete"
-            title="Delete"
-          >🗑️</button>
-        </td>
-      </tr>
+      <ng-container *ngIf="!loading">
+        <tr *ngFor="let s of students">
+          <td>{{ s.id }}</td>
+          <td><code>{{ s.enrollmentNumber }}</code></td>
+          <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.department }}</td>
+          <td>
+              <span class="badge" [ngClass]="(s.status || '').toLowerCase()">
+                {{ s.status || 'ACTIVE' }}
+              </span>
+          </td>
+          <td class="action-cell">
+            <a
+              [routerLink]="['/students', s.id]"
+              class="btn-view"
+              title="View Details"
+            >👁️</a>
+            <a
+              [routerLink]="['/students', s.id, 'edit']"
+              class="btn-edit"
+              title="Edit"
+            >✏️</a>
+            <button
+              (click)="promptDelete(s)"
+              class="btn-delete"
+              title="Delete"
+            >🗑️</button>
+          </td>
+        </tr>
+      </ng-container>
 
       <tr *ngIf="!loading && students.length === 0">
         <td colspan="7" class="empty-state">

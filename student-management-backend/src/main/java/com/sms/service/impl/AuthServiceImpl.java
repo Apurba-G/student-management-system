@@ -29,6 +29,9 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final AdminMapper adminMapper;
 
+    @org.springframework.beans.factory.annotation.Value("${app.admin.recovery-key:sms_admin_recovery_key_2026}")
+    private String systemRecoveryKey;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -108,6 +111,26 @@ public class AuthServiceImpl implements AuthService {
         // Invalidate previously issued JWTs
         admin.setTokenVersion(admin.getTokenVersion() + 1);
 // Save updated admin
+        adminRepository.save(admin);
+    }
+
+    @Override
+    @Transactional
+    public void resetPasswordWithRecoveryKey(com.sms.dto.request.ResetPasswordRequest request) {
+        if (request.getRecoveryKey() == null || !request.getRecoveryKey().trim().equals(systemRecoveryKey.trim())) {
+            throw new BadCredentialsException("Invalid emergency recovery key");
+        }
+
+        Admin admin = adminRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("Admin account not found with username: " + request.getUsername()));
+
+        int passwordBytes = request.getNewPassword().getBytes(StandardCharsets.UTF_8).length;
+        if (passwordBytes > 72) {
+            throw new IllegalArgumentException("Password cannot exceed 72 UTF-8 bytes");
+        }
+
+        admin.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+        admin.setTokenVersion(admin.getTokenVersion() + 1);
         adminRepository.save(admin);
     }
 }

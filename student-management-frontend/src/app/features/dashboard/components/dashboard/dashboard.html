@@ -39,22 +39,24 @@
             <td colspan="6" class="empty-cell">⏳ Loading recent students...</td>
           </tr>
 
-          <tr *ngFor="let s of recentStudents">
-            <td>{{ s.id }}</td>
-            <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
-            <td>{{ s.email }}</td>
-            <td>{{ s.department }}</td>
-            <td>
-                <span class="badge" [ngClass]="(s.status || '').toLowerCase()">
-                  {{ s.status || 'ACTIVE' }}
-                </span>
-            </td>
-            <td>
-              <a [routerLink]="['/students', s.id]" class="btn-action">View</a>
-            </td>
-          </tr>
+          <ng-container *ngIf="!loading">
+            <tr *ngFor="let s of recentStudents">
+              <td>{{ s.id }}</td>
+              <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
+              <td>{{ s.email }}</td>
+              <td>{{ s.department }}</td>
+              <td>
+                  <span class="badge" [ngClass]="(s.status || '').toLowerCase()">
+                    {{ s.status || 'ACTIVE' }}
+                  </span>
+              </td>
+              <td>
+                <a [routerLink]="['/students', s.id]" class="btn-action">View</a>
+              </td>
+            </tr>
+          </ng-container>
 
-          <tr *ngIf="recentStudents.length === 0">
+          <tr *ngIf="!loading && recentStudents.length === 0">
             <td colspan="6" class="empty-cell">No students registered yet.</td>
           </tr>
           </tbody>

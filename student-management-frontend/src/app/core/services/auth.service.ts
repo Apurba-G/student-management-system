@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LoginRequest } from '../../features/auth/models/login-request';
 import { ChangePasswordRequest } from '../../features/auth/models/change-password-request';
+import { ResetPasswordRequest } from '../../features/auth/models/reset-password-request';
 
 export interface UserSession {
   username: string;
@@ -65,6 +66,10 @@ export class AuthService {
 
   changePassword(request: ChangePasswordRequest): Observable<void> {
     return this.http.post<void>('/api/auth/change-password', request);
+  }
+
+  resetPassword(request: ResetPasswordRequest): Observable<any> {
+    return this.http.post<any>('/api/auth/forgot-password', request);
   }
 
   logout(): void {

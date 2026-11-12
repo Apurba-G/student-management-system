@@ -21,25 +21,35 @@ export class StudentDetails implements OnInit {
 
   student: Student | null = null;
   loading = false;
+  errorMessage = '';
   showDeleteDialog = false;
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadStudent(+id);
-    }
+    this.route.paramMap.subscribe(params => {
+      const idStr = params.get('id');
+      if (idStr) {
+        const id = Number(idStr);
+        if (!isNaN(id)) {
+          this.loadStudent(id);
+        } else {
+          this.errorMessage = 'Invalid student ID.';
+        }
+      }
+    });
   }
 
   loadStudent(id: number): void {
     this.loading = true;
+    this.errorMessage = '';
     this.studentService.getStudentById(id).subscribe({
       next: (data) => {
         this.student = data;
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.router.navigate(['/students']);
+        this.errorMessage = err?.error?.message || 'Could not load student details.';
+        this.notification.error(this.errorMessage);
       }
     });
   }

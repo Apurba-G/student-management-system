@@ -27,6 +27,14 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     long countByStatus(String status);
 
+    @Query("SELECT " +
+           "COUNT(s) AS total, " +
+           "COALESCE(SUM(CASE WHEN UPPER(s.status) = 'ACTIVE' THEN 1L ELSE 0L END), 0L) AS active, " +
+           "COALESCE(SUM(CASE WHEN UPPER(s.status) = 'INACTIVE' THEN 1L ELSE 0L END), 0L) AS inactive, " +
+           "COALESCE(SUM(CASE WHEN UPPER(s.status) = 'SUSPENDED' THEN 1L ELSE 0L END), 0L) AS suspended " +
+           "FROM Student s")
+    com.sms.dto.response.StudentStatsProjection getAggregatedStudentStats();
+
     @Query("SELECT s FROM Student s WHERE " +
            "(:searchLength = 1 AND (" +
            "   LOWER(s.firstName) LIKE LOWER(CONCAT(:search, '%')) OR " +
