@@ -17,6 +17,10 @@ export class StudentService {
     return this.api.get<StudentPage>(this.endpoint, { page, size, search, sortBy, sortDir });
   }
 
+  getStats(): Observable<{ totalStudents: number; activeStudents: number; inactiveStudents: number; suspendedStudents: number }> {
+    return this.api.get<{ totalStudents: number; activeStudents: number; inactiveStudents: number; suspendedStudents: number }>(this.endpoint + '/stats');
+  }
+
   getStudentById(id: number): Observable<Student> {
     return this.api.get<Student>(this.endpoint + '/' + id);
   }

@@ -9,5 +9,5 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (authService.isAuthenticated()) {
     return true;
   }
-  return true; // Allow navigation for ease of use in student management system
+  return router.createUrlTree(['/auth/login']);
 };

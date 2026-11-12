@@ -4,14 +4,19 @@
       <span class="logo">🎓</span>
       <span class="brand-text">EduTrack SMS</span>
     </div>
-    <nav class="navbar-menu">
+
+    <!-- Navigation links visible ONLY when logged in as admin -->
+    <nav class="navbar-menu" *ngIf="authService.currentUser()">
       <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-      <a routerLink="/students" routerLinkActive="active">Students</a>
+      <a routerLink="/students" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Students</a>
       <a routerLink="/students/new" routerLinkActive="active">Add Student</a>
+      <a routerLink="/auth/change-password" routerLinkActive="active">Change Password</a>
     </nav>
+
     <div class="navbar-user">
       <ng-container *ngIf="authService.currentUser() as user; else guest">
         <span class="user-name">👤 {{ user.username }}</span>
+        <a routerLink="/auth/change-password" class="btn-password" title="Change Admin Password">🔑 Password</a>
         <button class="btn-logout" (click)="authService.logout()">Logout</button>
       </ng-container>
       <ng-template #guest>

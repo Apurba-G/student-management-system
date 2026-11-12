@@ -48,6 +48,15 @@
   cursor: pointer;
   font-weight: 500;
 }
+.btn-clear {
+  padding: 0.65rem 1rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
 .table-card {
   background: white;
   border-radius: 12px;
@@ -91,6 +100,26 @@
 .badge.active { background: #dcfce7; color: #15803d; }
 .badge.inactive { background: #f1f5f9; color: #475569; }
 .badge.suspended { background: #fee2e2; color: #b91c1c; }
+.loading-state {
+  text-align: center;
+  color: #64748b;
+  padding: 3rem !important;
+  font-weight: 500;
+}
+.inline-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 .empty-state {
   text-align: center;
   color: #94a3b8;

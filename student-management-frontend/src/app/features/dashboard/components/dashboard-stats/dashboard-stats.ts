@@ -12,4 +12,5 @@ export class DashboardStats {
   @Input() totalStudents = 0;
   @Input() activeStudents = 0;
   @Input() inactiveStudents = 0;
+  @Input() suspendedStudents = 0;
 }

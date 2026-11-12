@@ -43,7 +43,13 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/stats")
+    @Operation(summary = "Get dashboard statistics for students")
+    public ResponseEntity<com.sms.dto.response.DashboardStatsResponse> getDashboardStats() {
+        return ResponseEntity.ok(studentService.getDashboardStats());
+    }
+
+    @GetMapping("/{id:[0-9]+}")
     @Operation(summary = "Get a student by ID")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
         StudentResponse student = studentService.getStudentById(id);

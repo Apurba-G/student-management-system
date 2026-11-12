@@ -1,4 +1,3 @@
-```html
 <div class="dashboard-layout">
   <app-dashboard-sidebar></app-dashboard-sidebar>
 
@@ -12,6 +11,7 @@
       [totalStudents]="totalStudents"
       [activeStudents]="activeStudents"
       [inactiveStudents]="inactiveStudents"
+      [suspendedStudents]="suspendedStudents"
     >
     </app-dashboard-stats>
 
@@ -35,14 +35,18 @@
           </thead>
 
           <tbody>
+          <tr *ngIf="loading">
+            <td colspan="6" class="empty-cell">⏳ Loading recent students...</td>
+          </tr>
+
           <tr *ngFor="let s of recentStudents">
             <td>{{ s.id }}</td>
             <td><strong>{{ s.firstName }} {{ s.lastName }}</strong></td>
             <td>{{ s.email }}</td>
             <td>{{ s.department }}</td>
             <td>
-                <span class="badge" [ngClass]="s.status.toLowerCase()">
-                  {{ s.status }}
+                <span class="badge" [ngClass]="(s.status || '').toLowerCase()">
+                  {{ s.status || 'ACTIVE' }}
                 </span>
             </td>
             <td>
@@ -59,4 +63,3 @@
     </div>
   </main>
 </div>
-```

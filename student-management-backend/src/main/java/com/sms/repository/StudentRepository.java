@@ -25,11 +25,23 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     boolean existsByEnrollmentNumberAndIdNot(String enrollmentNumber, Long id);
 
+    long countByStatus(String status);
+
     @Query("SELECT s FROM Student s WHERE " +
-           "LOWER(s.firstName) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-           "LOWER(s.lastName) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-           "LOWER(s.email) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-           "LOWER(s.department) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-           "LOWER(s.enrollmentNumber) LIKE LOWER(CONCAT('%', :search, '%'))")
-    Page<Student> searchStudents(@Param("search") String search, Pageable pageable);
+           "(:searchLength = 1 AND (" +
+           "   LOWER(s.firstName) LIKE LOWER(CONCAT(:search, '%')) OR " +
+           "   LOWER(s.enrollmentNumber) LIKE LOWER(CONCAT(:search, '%'))" +
+           ")) OR (" +
+           ":searchLength > 1 AND (" +
+           "   LOWER(s.firstName) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+           "   LOWER(s.lastName) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+           "   LOWER(s.enrollmentNumber) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+           "   LOWER(s.department) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+           "   LOWER(s.email) LIKE LOWER(CONCAT('%', :search, '%'))" +
+           "))")
+    Page<Student> searchStudents(
+            @Param("search") String search,
+            @Param("searchLength") int searchLength,
+            Pageable pageable
+    );
 }

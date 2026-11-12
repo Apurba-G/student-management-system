@@ -1,6 +1,21 @@
-graph TD
-    Client[Browser / SPA] --> Controller[StudentController]
-    Controller --> Service[StudentService / StudentServiceImpl]
-    Service --> Mapper[StudentMapper]
-    Service --> Repository[StudentRepository]
-    Repository --> Database[(PostgreSQL / H2)]
+
+flowchart TD
+    A["Admin submits login credentials"] --> B["AuthController"]
+    B --> C["AuthServiceImpl"]
+    C --> D["Find admin by username"]
+    D --> E{"Admin exists and enabled?"}
+
+    E -->|No| X["Return authentication failure"]
+    E -->|Yes| F["Verify password using BCrypt"]
+
+    F --> G{"Password matches?"}
+    G -->|No| X
+    G -->|Yes| H["Generate JWT with tokenVersion"]
+    H --> I["Return JWT to Angular"]
+    I --> J["Angular sends Bearer token"]
+    J --> K["JwtAuthenticationFilter"]
+    K --> L["Validate signature, expiry and tokenVersion"]
+    L --> M{"Token valid and admin enabled?"}
+    M -->|No| N["Reject protected request"]
+    M -->|Yes| O["Set SecurityContext"]
+    O --> P["Allow ADMIN endpoint"]

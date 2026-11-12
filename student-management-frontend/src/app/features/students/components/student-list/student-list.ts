@@ -1,7 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { StudentService } from '../../services/student.service';
 import { Student } from '../../models/student';
 import { StudentDeleteDialog } from '../student-delete-dialog/student-delete-dialog';
@@ -14,7 +16,7 @@ import { NotificationService } from '../../../../core/services/notification.serv
   templateUrl: './student-list.html',
   styleUrl: './student-list.css'
 })
-export class StudentList implements OnInit {
+export class StudentList implements OnInit, OnDestroy {
   private studentService = inject(StudentService);
   private notification = inject(NotificationService);
 
@@ -28,8 +30,29 @@ export class StudentList implements OnInit {
 
   studentToDelete: Student | null = null;
 
+  private searchSubject = new Subject<string>();
+  private searchSubscription?: Subscription;
+
   ngOnInit(): void {
     this.fetchStudents();
+
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((term) => {
+      this.searchTerm = term;
+      this.currentPage = 0;
+      this.fetchStudents();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.searchSubscription?.unsubscribe();
+  }
+
+  onSearchInput(event: Event): void {
+    const val = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(val);
   }
 
   fetchStudents(): void {
@@ -48,6 +71,12 @@ export class StudentList implements OnInit {
   }
 
   onSearch(): void {
+    this.currentPage = 0;
+    this.fetchStudents();
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
     this.currentPage = 0;
     this.fetchStudents();
   }

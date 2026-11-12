@@ -1,4 +1,24 @@
-graph TD
-    User([Administrator / User]) -->|HTTPS| Frontend[Angular 18 Frontend]
-    Frontend -->|REST / JSON| Backend[Spring Boot 3 API]
-    Backend -->|JDBC| DB[(PostgreSQL Database)]
+
+flowchart TB
+    Admin["Admin"]
+    UI["Angular 21 Frontend"]
+    API["Spring Boot REST API"]
+
+    subgraph Backend["Backend Application"]
+        Security["Spring Security + JWT Filter"]
+        Controller["REST Controllers"]
+        Service["Service Layer"]
+        Mapper["Mapper Layer"]
+        Repository["Spring Data JPA Repository"]
+    end
+
+    DB[("PostgreSQL Database")]
+
+    Admin --> UI
+    UI -->|"HTTP / JSON + Bearer JWT"| API
+    API --> Security
+    Security --> Controller
+    Controller --> Service
+    Service --> Mapper
+    Mapper --> Repository
+    Repository -->|"Hibernate / SQL"| DB

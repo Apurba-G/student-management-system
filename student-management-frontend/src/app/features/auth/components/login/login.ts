@@ -37,9 +37,10 @@ export class Login {
         this.notification.success('Logged in successfully!');
         this.router.navigate(['/dashboard']);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.notification.error('Authentication failed.');
+        const msg = err?.error?.message || 'Invalid username or password';
+        this.notification.error(msg);
       }
     });
   }

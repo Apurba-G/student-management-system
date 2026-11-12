@@ -19,21 +19,39 @@ export class Dashboard implements OnInit {
   totalStudents = 0;
   activeStudents = 0;
   inactiveStudents = 0;
+  suspendedStudents = 0;
   recentStudents: Student[] = [];
   loading = false;
 
   ngOnInit(): void {
     this.loadStats();
+    this.loadRecentStudents();
   }
 
   loadStats(): void {
+    this.studentService.getStats().subscribe({
+      next: (stats) => {
+        this.totalStudents = stats.totalStudents;
+        this.activeStudents = stats.activeStudents;
+        this.inactiveStudents = stats.inactiveStudents;
+        this.suspendedStudents = stats.suspendedStudents || 0;
+      },
+      error: () => {
+        // Fallback: load counts from paginated endpoint if stats fails
+        this.studentService.getStudents(0, 1).subscribe({
+          next: (page) => {
+            this.totalStudents = page.totalElements || 0;
+          }
+        });
+      }
+    });
+  }
+
+  loadRecentStudents(): void {
     this.loading = true;
     this.studentService.getStudents(0, 5, '', 'id', 'desc').subscribe({
       next: (page) => {
-        this.totalStudents = page.totalElements || 0;
         this.recentStudents = page.content || [];
-        this.activeStudents = (page.content || []).filter(s => s.status === 'ACTIVE').length;
-        this.inactiveStudents = (page.content || []).filter(s => s.status !== 'ACTIVE').length;
         this.loading = false;
       },
       error: () => {

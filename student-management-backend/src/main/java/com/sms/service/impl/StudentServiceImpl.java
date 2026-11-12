@@ -96,8 +96,10 @@ public class StudentServiceImpl implements StudentService {
         Page<Student> studentsPage;
 
         if (search != null && !search.isBlank()) {
+            String trimmed = search.trim();
             studentsPage = studentRepository.searchStudents(
-                    search.trim(),
+                    trimmed,
+                    trimmed.length(),
                     pageable
             );
         } else {
@@ -105,6 +107,21 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return studentsPage.map(studentMapper::toResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public com.sms.dto.response.DashboardStatsResponse getDashboardStats() {
+        long total = studentRepository.count();
+        long active = studentRepository.countByStatus("ACTIVE");
+        long inactive = studentRepository.countByStatus("INACTIVE");
+        long suspended = studentRepository.countByStatus("SUSPENDED");
+        return com.sms.dto.response.DashboardStatsResponse.builder()
+                .totalStudents(total)
+                .activeStudents(active)
+                .inactiveStudents(inactive)
+                .suspendedStudents(suspended)
+                .build();
     }
 
     @Override
